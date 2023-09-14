@@ -25,9 +25,9 @@ def print_entry_data(data):
 
 
 def main_menu():
-    print(textNotes.main_menu)
     flag = True
     while (flag):
+        print(textNotes.main_menu)
         choice = input(textNotes.select_menu_item)
         match choice:
             case "1":
@@ -39,12 +39,17 @@ def main_menu():
                 id_entry = input(textNotes.enter_note_id)
                 title_entry = input(textNotes.enter_new_note_title)
                 body_entry = input(textNotes.enter_new_note_text)
-                presenter.editing_entry_pr(id_entry, title_entry, body_entry)
-                print(textNotes.note_changed)
+                if presenter.editing_entry_pr(id_entry, title_entry, body_entry):
+                    print(textNotes.note_changed)
+                else:
+                    print(textNotes.id_not_found)
             case "3":
                 id_entry = input(textNotes.select_note_id_to_delete)
-                presenter.delete_entry_pr(id_entry)
-                print(textNotes.note_deleted)
+                if presenter.delete_entry_pr(id_entry):
+                    print(textNotes.note_deleted)
+                else:
+                    print(textNotes.id_not_found)
+
             case "4":
                 notes_dict = presenter.get_notes_dict_pr()
                 for item in notes_dict.items():
@@ -56,8 +61,10 @@ def main_menu():
                 data = input(textNotes.enter_the_date_note)
                 print_entry_data(data)
             case "7":
-                presenter.load_file_pr(textNotes.path)
-                print(textNotes.notes_loaded)
+                if presenter.load_file_pr(textNotes.path):
+                    print(textNotes.notes_loaded)
+                else:
+                    print(textNotes.file_not_found)
             case "8":
                 presenter.save_file_pr(textNotes.path)
                 print(textNotes.notes_saved)
